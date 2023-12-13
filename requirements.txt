@@ -1,0 +1,10 @@
+opencv-python>=4.5.5.64
+depthai_sdk==1.9.4.1
+depthai>=2.23.0.0
+open3d>=0.13.0
+rosbags>=0.9.13
+rosbags-image>=0.9.1
+imageio>=2.33.1
+
+# you may want to install a specific torch version manually for CUDA support
+torch
