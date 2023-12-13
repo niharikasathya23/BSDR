@@ -53,7 +53,6 @@ elif args.mode == "extract":
 
 for conn, timestamp, rawdata in tqdm(reader.messages(connections=reader.connections)):
 
-    print(conn.topic)
     if conn.topic in SR_MSGS:
 
         msg = deserialize_cdr(rawdata, conn.msgtype)

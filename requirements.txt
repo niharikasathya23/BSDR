@@ -5,6 +5,8 @@ open3d>=0.13.0
 rosbags>=0.9.13
 rosbags-image>=0.9.1
 imageio>=2.33.1
+segment-anything>=1.0
 
 # you may want to install a specific torch version manually for CUDA support
 torch
+torchvision

@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 # scripts/utils/crestereo/models/crestereo_eth3d.pth
+*.pth
