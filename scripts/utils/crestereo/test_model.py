@@ -5,7 +5,7 @@ import cv2
 
 from nets import Model
 
-device = 'cuda'
+device = 'cpu'
 
 #Ref: https://github.com/megvii-research/CREStereo/blob/master/test.py
 def inference(left, right, model, n_iter=20):
