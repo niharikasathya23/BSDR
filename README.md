@@ -69,4 +69,8 @@ python3 generate_gt_disp.py --path /path/to/extracted/frames
 ```
 You can optionally use the `--debug` flag to visualize the CREStereo results and check they are as expected.
 
+### 3. Using SAM 
+
+You will need the sam_vit_h_4b8939.pth model checkpoint (2.4 GB file) which can be downloaded from [here](https://github.com/facebookresearch/segment-anything?tab=readme-ov-file#model-checkpoints).
+
 

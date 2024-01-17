@@ -10,7 +10,7 @@ from rosbags.typesys.types import builtin_interfaces__msg__Time as Time
 from rosbags.typesys.types import std_msgs__msg__Header as Header
 from std_msgs.msg import Header as HeaderPointCloud2
 
-from rclpy.serialization import serialize_message
+# from rclpy.serialization import serialize_message
 
 from .calc import HostSpatialsCalc
 from .projector_3d import PointCloudVisualizer

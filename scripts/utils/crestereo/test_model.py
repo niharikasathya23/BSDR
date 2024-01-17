@@ -5,8 +5,8 @@ import cv2
 
 from nets import Model
 
-device = 'cpu'
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #Ref: https://github.com/megvii-research/CREStereo/blob/master/test.py
 def inference(left, right, model, n_iter=20):
 
