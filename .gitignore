@@ -163,3 +163,4 @@ cython_debug/
 *.pth
 scripts/april_6_capture_frames/*
 .DS_Store
+scripts/frames/*
