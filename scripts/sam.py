@@ -14,11 +14,7 @@ args = parser.parse_args()
 sam_checkpoint = "sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 
-<<<<<<< HEAD
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-=======
-device = "cpu"
->>>>>>> acfd5724371088673a75c0807fe0499097ade5ea
 
 sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 sam.to(device=device)
