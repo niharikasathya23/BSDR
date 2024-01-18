@@ -12,6 +12,7 @@ import glob
 from PIL import Image, ImageDraw
 import cmapy
 from scipy.signal import medfilt
+import matplotlib.pyplot as plt
 
 import sys
 
@@ -283,15 +284,23 @@ if __name__ == "__main__":
         print(np.min(gt_disp), np.max(gt_disp))
         print(np.min(err), np.max(err))
 
-        gt_disp_show = ((gt_disp) * 255).astype(np.uint8)
+        gt_disp_show = ((gt_disp) * 255 / np.max(gt_disp)).astype(np.uint8)
         gt_disp_show = cv2.applyColorMap(gt_disp_show, cv2.COLORMAP_JET)
         disp_show = ((disp) * 255).astype(np.uint8)
         disp_show = cv2.applyColorMap(disp_show, cv2.COLORMAP_JET)
         err_show = ((err + 1) / 2 * 255).astype(np.uint8)
-        err_show = cv2.applyColorMap(err_show, cmapy.cmap("seismic"))
+        # err_show = cv2.applyColorMap(err_show, cmapy.cmap("seismic"))
         cv2.imshow("right", (right * 255).astype(np.uint8))
         cv2.imshow("seg", (seg * 255).astype(np.uint8))
         cv2.imshow("gt_disp", gt_disp_show)
         cv2.imshow("disp", disp_show)
         cv2.imshow("err", err_show)
+
+        path = 'real_images'
+        cv2.imwrite(os.path.join(path , 'right.jpg'), (right * 255).astype(np.uint8))
+        cv2.imwrite(os.path.join(path , 'seg.jpg'), (seg * 255).astype(np.uint8))
+        cv2.imwrite(os.path.join(path , 'gt_disp.jpg'), gt_disp_show)
+        cv2.imwrite(os.path.join(path , 'disp.jpg'), disp_show)
+        cv2.imwrite(os.path.join(path , 'err.jpg'), err_show)
+
         cv2.waitKey(0)
