@@ -14,11 +14,7 @@ args = parser.parse_args()
 sam_checkpoint = "sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 
-<<<<<<< HEAD
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-=======
-device = "cpu"
->>>>>>> acfd5724371088673a75c0807fe0499097ade5ea
+device = "cuda"
 
 sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 sam.to(device=device)
@@ -44,7 +40,7 @@ box = np.zeros(4)
 hum_boxes, obj_boxes = [], []
 hum_pnts, obj_pnts = [], []
 hum_lbls, obj_lbls = [], []
-hum_mask, obj_mask = np.zeros((400,640)).astype(np.uint8), np.zeros((400,640)).astype(np.uint8)
+hum_mask, obj_mask = np.zeros((384,640)).astype(np.uint8), np.zeros((384,640)).astype(np.uint8)
 state = -1
 def box_fn(event, x, y, flags, param):
     global image, cache, box, pnt, drawing, new_box, new_pnt, state
@@ -72,7 +68,7 @@ cv2.namedWindow("preview")
 cv2.setMouseCallback("preview", box_fn)
 
 def draw_mask(image):
-    mask_show = np.zeros((400,640,3)).astype(np.uint8)
+    mask_show = np.zeros((384,640,3)).astype(np.uint8)
     mask_show[hum_mask==1]=[255,0,0]
     mask_show[obj_mask==1]=[0,0,255]
     image = cv2.addWeighted(image, 0.75, mask_show, 0.25, 0)
@@ -142,7 +138,7 @@ for path in paths:
                     multimask_output=False,
                 )
 
-                hum_mask = np.zeros((400,640)).astype(np.uint8)
+                hum_mask = np.zeros((384,640)).astype(np.uint8)
                 for mask in masks:
                     hum_mask[mask] = 1
 
@@ -156,7 +152,7 @@ for path in paths:
                     multimask_output=False,
                 )
 
-                obj_mask = np.zeros((400,640)).astype(np.uint8)
+                obj_mask = np.zeros((384,640)).astype(np.uint8)
                 for mask in masks:
                     obj_mask[mask] = 1
 
@@ -187,7 +183,7 @@ for path in paths:
             image = resetImage(image, empty, key)
         elif key == ord('s'):
             # SAVE!
-            final_mask = np.zeros((400,640,3)).astype(np.uint8)
+            final_mask = np.zeros((384,640,3)).astype(np.uint8)
             final_mask[hum_mask==1] = [255,0,0]
             final_mask[obj_mask==1] = [0,0,255]
             cv2.imshow('final', final_mask)
@@ -197,6 +193,6 @@ for path in paths:
             hum_boxes, obj_boxes = [], []
             hum_pnts, obj_pnts = [], []
             hum_lbls, obj_lbls = [], []
-            hum_mask, obj_mask = np.zeros((400,640)).astype(np.uint8), np.zeros((400,640)).astype(np.uint8)
+            hum_mask, obj_mask = np.zeros((384,640)).astype(np.uint8), np.zeros((384,640)).astype(np.uint8)
             state = -1
             break

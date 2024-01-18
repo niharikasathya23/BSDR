@@ -1,4 +1,4 @@
-DEVICE          : cuda              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+DEVICE          : cpu             # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
 SAVE_DIR        : 'save_dir'         # output folder name used for saving the model, logs and inference results
 
 MODEL:
@@ -9,7 +9,7 @@ MODEL:
 
 DATASET:
   NAME          : HumanReal                                            # dataset name
-  ROOT          : '/panavision/datasets/Thesis/april_6_capture_frames'                         # dataset root path
+  ROOT          : '/Users/niharika/Desktop/hiro_is/bsdr/scripts/april_6_capture_frames'                         # dataset root path
   IGNORE_LABEL  : 255
   CALIB         : '/panavision/datasets/Thesis/jan_23_capture/calibration/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
@@ -21,6 +21,7 @@ DATASET:
   NORM_DISP     : true
   NORM_GT_DISP  : false
   MAX_DISP      : 256
+  NORM_IMG      : true
 
 TRAIN:
   IMAGE_SIZE    : [384, 640]    # training image size in (h, w)

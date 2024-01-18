@@ -79,7 +79,8 @@ class HumanReal(Dataset):
 
         self.root = root
         self.split = split
-        with open(self.root + "/loader.json") as f:
+        print("self.root\n", self.root)
+        with open(self.root + "/test_loader.json") as f:
             self.mono_paths = json.load(f)[self.split]
 
         self.gra = dataset_cfg["GT_RIGHT_ALIGN"]
@@ -150,7 +151,17 @@ class HumanReal(Dataset):
             left_path = mono_path
             right_path = other_path
         # left = cv2.cvtColor(cv2.imread(left_path), cv2.COLOR_BGR2RGB)
-        right = cv2.cvtColor(cv2.imread(right_path), cv2.COLOR_BGR2RGB)
+        # right = cv2.cvtColor(cv2.imread(right_path), cv2.COLOR_BGR2RGB)
+        image = cv2.imread(right_path)
+        # cv2.imshow("Image",image)
+        if image is None:
+            print(f"Failed to load image at {right_path}")
+        # Handle the error, e.g., skip this image, use a default image, etc.
+            return None  # Or handle the error as appropriate
+        else:
+            right = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # cv2.imshow("Image2",image)
+
 
         # disp from depth
         gt_disp = cv2.imread(gt_disp_path, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
@@ -158,6 +169,7 @@ class HumanReal(Dataset):
         # SGBM
         # leftImg = cv2.cvtColor(left, cv2.COLOR_BGR2GRAY)
         rightImg = cv2.cvtColor(right, cv2.COLOR_BGR2GRAY)
+        # cv2.imshow("r8",rightImg)
 
         # construct seg
         seg_key = cv2.imread(ann_path)
@@ -187,6 +199,7 @@ class HumanReal(Dataset):
                 image=rightImg, gt_disp=gt_disp, disp=disp, masks=[seg]
             )
             rightImg = transformed["image"]
+            cv2.imshow("Image",image)
             gt_disp = transformed["gt_disp"]
             disp = transformed["disp"]
             seg = transformed["masks"][0]
@@ -198,7 +211,7 @@ class HumanReal(Dataset):
 
         if self.norm_img:
             rightImg = rightImg / 255
-
+        # cv2.imshow("right_image",rightImg)
         # convert to tensors
         # image = torch.tensor(left).unsqueeze(0)
         image = np.stack([rightImg, disp])
@@ -214,13 +227,25 @@ class HumanReal(Dataset):
         else:
             return image, label.squeeze().long(), gt_disp, err
 
+    # def __getitem__(self, index: int) -> Tuple[Tensor, Tensor]:
+    #     try:
+    #         return self.preprocess(index)
+    #     except Exception as e:
+    #         print(f"EXCEPTION: {e}")
+    #         index = np.random.choice(self.__len__())
+    #         return self.preprocess(index)
     def __getitem__(self, index: int) -> Tuple[Tensor, Tensor]:
-        try:
-            return self.preprocess(index)
-        except Exception as e:
-            print(f"EXCEPTION: {e}")
-            index = np.random.choice(self.__len__())
-            return self.preprocess(index)
+        while True:
+            try:
+                result = self.preprocess(index)
+                if result is not None:
+                    return result
+                else:
+                    raise ValueError("Failed to preprocess image")
+            except Exception as e:
+                print(f"EXCEPTION: {e}")
+                # If an exception occurs, select a new index
+                index = np.random.choice(self.__len__())
 
 
 if __name__ == "__main__":
@@ -236,10 +261,13 @@ if __name__ == "__main__":
         cfg = yaml.load(f, Loader=yaml.SafeLoader)
 
     trainset = HumanReal(cfg["DATASET"]["ROOT"], "val", dataset_cfg=cfg["DATASET"])
+    
     trainloader = DataLoader(trainset, batch_size=1, num_workers=0)
+
     # trainloader = DataLoader(trainset, batch_size=4, num_workers=0, collate_fn=trainset.collate_fn_mosaic)
 
     for img, lbl, gt_disp, err in trainloader:
+        print("shape")
         print(lbl.shape)
         print(gt_disp.shape)
         print(err.shape)
@@ -261,7 +289,7 @@ if __name__ == "__main__":
         disp_show = cv2.applyColorMap(disp_show, cv2.COLORMAP_JET)
         err_show = ((err + 1) / 2 * 255).astype(np.uint8)
         err_show = cv2.applyColorMap(err_show, cmapy.cmap("seismic"))
-        cv2.imshow("right", (right).astype(np.uint8))
+        cv2.imshow("right", (right * 255).astype(np.uint8))
         cv2.imshow("seg", (seg * 255).astype(np.uint8))
         cv2.imshow("gt_disp", gt_disp_show)
         cv2.imshow("disp", disp_show)
