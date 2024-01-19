@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 DEVICE          : cpu             # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
-=======
-DEVICE          : cpu              # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
->>>>>>> eb5f329f56bd9f04f81b2aa54f0b7df20b0c6675
+
 SAVE_DIR        : 'save_dir'         # output folder name used for saving the model, logs and inference results
 
 MODEL:
@@ -13,11 +10,8 @@ MODEL:
 
 DATASET:
   NAME          : HumanReal                                            # dataset name
-<<<<<<< HEAD
-  ROOT          : '/Users/niharika/Desktop/hiro_is/bsdr/scripts/april_6_capture_frames'                         # dataset root path
-=======
+
   ROOT          : '/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames'                         # dataset root path
->>>>>>> eb5f329f56bd9f04f81b2aa54f0b7df20b0c6675
   IGNORE_LABEL  : 255
   CALIB         : '/panavision/datasets/Thesis/jan_23_capture/calibration/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
