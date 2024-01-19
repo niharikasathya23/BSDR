@@ -162,4 +162,6 @@ cython_debug/
 # scripts/utils/crestereo/models/crestereo_eth3d.pth
 *.pth
 scripts/april_6_capture_frames/*
-./
+
+.DS_Store
+scripts/frames/*
