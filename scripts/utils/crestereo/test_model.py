@@ -5,6 +5,15 @@ import cv2
 
 from nets import Model
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+=======
+device = 'cpu'
+>>>>>>> acfd5724371088673a75c0807fe0499097ade5ea
+=======
+>>>>>>> eb5f329f56bd9f04f81b2aa54f0b7df20b0c6675
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #Ref: https://github.com/megvii-research/CREStereo/blob/master/test.py

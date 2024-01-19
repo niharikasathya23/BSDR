@@ -296,11 +296,4 @@ if __name__ == "__main__":
         cv2.imshow("disp", disp_show)
         cv2.imshow("err", err_show)
 
-        path = 'real_images'
-        cv2.imwrite(os.path.join(path , 'right.jpg'), (right * 255).astype(np.uint8))
-        cv2.imwrite(os.path.join(path , 'seg.jpg'), (seg * 255).astype(np.uint8))
-        cv2.imwrite(os.path.join(path , 'gt_disp.jpg'), gt_disp_show)
-        cv2.imwrite(os.path.join(path , 'disp.jpg'), disp_show)
-        cv2.imwrite(os.path.join(path , 'err.jpg'), err_show)
-
         cv2.waitKey(0)
