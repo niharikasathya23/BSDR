@@ -126,17 +126,39 @@ def separation_loss(logits, labels, gt_disp, disp, separation_lambda=0.05, ignor
 #     return torch.mean(torch.abs(yhat-y))*190 # average disparities we are off by, most interpretable
 
 def disp_loss(refined, err, labels, disp):
+
+   # print("refined shape:", refined.shape)
+   # print("err shape:", err.shape)
+   # print("labels shape:", labels.shape)
+   # print("disp shape:", disp.shape)
     """ MSE loss after masking human """
     # mse_fun = nn.MSELoss()
     loss_fun = nn.L1Loss()
+    refined = refined.mean(dim=1)
 
     # refined = refined.reshape(refined.size(0), refined.size(2), refined.size(3))
     # refined = disp+refined # NEW!
 
     # labels[disp == 0] = 0 # filter out noise from occlusions
 
-    yhat = refined[labels > 0]
-    y = err[labels > 0]
+    
+
+   #batch_size, channels, height, width = labels.shape[0], refined.shape[1], labels.shape[1], labels.shape[2]
+   # refined = refined.view(batch_size, channels, height, width)
+     # Ensure the refined_avg tensor now matches the spatial dimensions of labels
+    print("Adjusted refined_avg shape:", refined.shape)
+
+    # Flatten the tensors for compatible indexing
+    refined_flat = refined.view(refined.size(0), -1)
+    err_flat = err.view(err.size(0), -1)
+    labels_flat = labels.view(labels.size(0), -1)
+
+    # Create a mask for indexing
+    mask = labels_flat > 0
+
+
+    yhat = refined_flat[mask]
+    y = err_flat[mask]
 
     # import numpy as np
     # import cv2

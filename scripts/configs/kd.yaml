@@ -6,12 +6,12 @@ MODEL:
   NAME          : BiSeNetv1Disp3                                          # name of the model you are using
   BACKBONE      : MicroNet-M1                                                # model variant
   PRETRAINED    : #'checkpoints/micronet-m1.pth'              # backbone model's weight
-  WEIGHTS       : 'runs/coco_best/BiSeNetv1Disp2_MicroNet-M1_HumanCOCO.pth'
+  WEIGHTS       : 'BiSeNetv1Disp2_MicroNet-M1_HumanCOCO.pth'
 
 DATASET:
   NAME          : HumanReal                                            # dataset name
 
-  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames'                         # dataset root path
+  ROOT          : '/Users/niharika/Desktop/hiro_is/bsdr/scripts/april_6_capture_frames'                         # dataset root path
   IGNORE_LABEL  : 255
   CALIB         : '/panavision/datasets/Thesis/jan_23_capture/calibration/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
@@ -27,9 +27,10 @@ DATASET:
 
 TRAIN:
   IMAGE_SIZE    : [384, 640]    # training image size in (h, w)
-  BATCH_SIZE    : 4               # batch size used to train
+  BATCH_SIZE    : 10              # batch size used to train
   MOSAIC        : false
-  EPOCHS        : 10000             # number of epochs to train
+  EPOCHS        : 1
+               # number of epochs to train
   EVAL_INTERVAL : 20              # evaluation interval during training
   AMP           : false           # use AMP in training
   DDP           : false           # use DDP training

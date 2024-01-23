@@ -11,8 +11,8 @@ def check_start(param, exclude):
     else:
         return True
 
-def load_segmentation_pretrain_weights(model, ckpt_file, from_coco=False):
-    ckpt = torch.load(ckpt_file)#['model_state_dict']
+def load_segmentation_pretrain_weights(model, ckpt_file, map_location=None, from_coco=False):
+    ckpt = torch.load(ckpt_file, map_location=map_location)#['model_state_dict']
 
     exclude = [
         'logits_head.conv_1x1.',
@@ -22,12 +22,17 @@ def load_segmentation_pretrain_weights(model, ckpt_file, from_coco=False):
 
     mdict = model.state_dict()
     for param in ckpt:
-
-        if check_start(param, ['disp_head.']):# and not param.startswith():
-            if from_coco and check_start(param, exclude):
-                mdict[param] = ckpt[param]
-            elif not from_coco:
-                mdict[param] = ckpt[param]
+        if param in mdict:
+            if ckpt[param].shape == mdict[param].shape:
+                if from_coco and check_start(param, exclude):
+                    mdict[param] = ckpt[param]
+                elif not from_coco and not check_start(param, exclude):
+                    mdict[param] = ckpt[param]
+            else:
+                print(f"Skipping {param} due to size mismatch: "
+                      f"Checkpoint shape {ckpt[param].shape}, Model shape {mdict[param].shape}")
+        else:
+            print(f"Skipping {param} as it is not in the model.")
 
     return mdict
 
@@ -36,5 +41,7 @@ if __name__ == "__main__":
     model = BiSeNetv1Disp2('MicroNet-M1', 3)
     ckpt_file = "../runs/coco_best/BiSeNetv1Disp2_MicroNet-M1_HumanCOCO.pth"
 
-    state_dict = load_segmentation_pretrain_weights(model, ckpt_file)
+   # Check if CUDA is available and set map_location accordingly
+    map_location = 'cuda' if torch.cuda.is_available() else 'cpu'
+    state_dict = load_segmentation_pretrain_weights(model, ckpt_file, map_location=map_location)
     model.load_state_dict(state_dict)

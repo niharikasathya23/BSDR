@@ -81,7 +81,7 @@ class HumanReal(Dataset):
         self.root = root
         self.split = split
         print("self.root\n", self.root)
-        with open(self.root + "/test_loader.json") as f:
+        with open(self.root + "/loader.json") as f:
             self.mono_paths = json.load(f)[self.split]
 
         self.gra = dataset_cfg["GT_RIGHT_ALIGN"]

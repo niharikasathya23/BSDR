@@ -30,7 +30,7 @@ from utils.utils import (
     init_synth_scfg,
     get_slc,
 )
-from val import evaluate
+# from val import evaluate
 from utils.metrics import Metrics, multi_class_FPr_TPr
 from utils.weight_loading import load_segmentation_pretrain_weights
 
@@ -73,12 +73,16 @@ def main(cfg, gpu, save_dir):
     model = model.to(device)
 
     if len(model_cfg["WEIGHTS"]):
+        map_location = None
+        if not torch.cuda.is_available():
+            map_location = torch.device('cpu')
+
         if train_cfg["SPECIAL_LOAD"]:
-            state_dict = load_segmentation_pretrain_weights(model, model_cfg["WEIGHTS"])
+            state_dict = load_segmentation_pretrain_weights(model, model_cfg["WEIGHTS"], map_location)
             model.load_state_dict(state_dict)
             print("SUCCESS!")
         else:
-            model.load_state_dict(torch.load(model_cfg["WEIGHTS"]))
+            model.load_state_dict(torch.load(model_cfg["WEIGHTS"], map_location=map_location))
         print("Loaded weights:", model_cfg["WEIGHTS"])
 
     save_module = torch.cuda.device_count() > 1 or train_cfg["DDP"]
@@ -141,6 +145,8 @@ def main(cfg, gpu, save_dir):
     valloader = DataLoader(valset, batch_size=1, num_workers=1, pin_memory=True)
 
     iters_per_epoch = len(trainset) // train_cfg["BATCH_SIZE"]
+    print("Trainset:", len(trainset))
+    print("train_cfg",train_cfg["BATCH_SIZE"])
 
     loss_fn = get_loss(loss_cfg["NAME"], trainset.ignore_label, None)
     optimizer = get_optimizer(model, optim_cfg["NAME"], lr, optim_cfg["WEIGHT_DECAY"])
@@ -232,7 +238,8 @@ def main(cfg, gpu, save_dir):
             scaler.step(optimizer)
             scaler.update()
             scheduler.step()
-            torch.cuda.synchronize()
+            if torch.cuda.is_available():
+             torch.cuda.synchronize()
 
             lr = scheduler.get_lr()
             lr = sum(lr) / len(lr)
@@ -311,7 +318,11 @@ if __name__ == "__main__":
 
     fix_seeds(3407)
     setup_cudnn()
-    gpu = setup_ddp()
+    if torch.cuda.is_available():
+        gpu = setup_ddp()
+    else:
+        gpu = torch.device("cpu")
+
     save_dir = Path(cfg["SAVE_DIR"])
     save_dir.mkdir(exist_ok=True)
     main(cfg, gpu, save_dir)
