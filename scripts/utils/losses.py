@@ -2,6 +2,10 @@ import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
 import torchvision.transforms.functional as TF
+import sys
+import os
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath('/Users/rithik/Desktop/bsdr/scripts/ndr/loss')))
+sys.path.append(parent_dir)
 from ndr.loss import DisparityLoss
 
 def water_obstacle_separation_loss(features, gt_mask):
@@ -125,56 +129,80 @@ def separation_loss(logits, labels, gt_disp, disp, separation_lambda=0.05, ignor
 #
 #     return torch.mean(torch.abs(yhat-y))*190 # average disparities we are off by, most interpretable
 
-def disp_loss(refined, err, labels, disp):
+# def disp_loss(refined, err, labels, disp):
 
-   # print("refined shape:", refined.shape)
-   # print("err shape:", err.shape)
-   # print("labels shape:", labels.shape)
-   # print("disp shape:", disp.shape)
-    """ MSE loss after masking human """
-    # mse_fun = nn.MSELoss()
-    loss_fun = nn.L1Loss()
-    refined = refined.mean(dim=1)
+#    # print("refined shape:", refined.shape)
+#    # print("err shape:", err.shape)
+#    # print("labels shape:", labels.shape)
+#    # print("disp shape:", disp.shape)
+#     """ MSE loss after masking human """
+#     # mse_fun = nn.MSELoss()
+#     loss_fun = nn.L1Loss()
+#     refined = refined.mean(dim=1)
 
-    # refined = refined.reshape(refined.size(0), refined.size(2), refined.size(3))
-    # refined = disp+refined # NEW!
+#     # refined = refined.reshape(refined.size(0), refined.size(2), refined.size(3))
+#     # refined = disp+refined # NEW!
 
-    # labels[disp == 0] = 0 # filter out noise from occlusions
+#     # labels[disp == 0] = 0 # filter out noise from occlusions
 
     
 
-   #batch_size, channels, height, width = labels.shape[0], refined.shape[1], labels.shape[1], labels.shape[2]
-   # refined = refined.view(batch_size, channels, height, width)
-     # Ensure the refined_avg tensor now matches the spatial dimensions of labels
-    print("Adjusted refined_avg shape:", refined.shape)
+#    #batch_size, channels, height, width = labels.shape[0], refined.shape[1], labels.shape[1], labels.shape[2]
+#    # refined = refined.view(batch_size, channels, height, width)
+#      # Ensure the refined_avg tensor now matches the spatial dimensions of labels
+#     print("Adjusted refined_avg shape:", refined.shape)
 
-    # Flatten the tensors for compatible indexing
-    refined_flat = refined.view(refined.size(0), -1)
-    err_flat = err.view(err.size(0), -1)
-    labels_flat = labels.view(labels.size(0), -1)
+#     # Flatten the tensors for compatible indexing
+#     refined_flat = refined.view(refined.size(0), -1)
+#     err_flat = err.view(err.size(0), -1)
+#     labels_flat = labels.view(labels.size(0), -1)
 
-    # Create a mask for indexing
-    mask = labels_flat > 0
+#     # Create a mask for indexing
+#     mask = labels_flat > 0
 
 
-    yhat = refined_flat[mask]
-    y = err_flat[mask]
+#     yhat = refined_flat[mask]
+#     y = err_flat[mask]
 
-    # import numpy as np
-    # import cv2
-    # # print(disp.shape)
-    # disp_test = disp[0].detach().cpu().numpy()
-    # dp2 = np.zeros_like(disp_test).astype(np.uint8)
-    # dp2[disp_test == 0] = 255
-    # # print(disp_test.min(), disp_test.max())
-    # disp_show = ((disp_test)*255).astype(np.uint8)
-    # disp_show = cv2.applyColorMap(disp_show, cv2.COLORMAP_JET)
-    # cv2.imshow('disp', disp_show)
-    # cv2.imshow('occ', dp2)
-    # cv2.waitKey(0)
+#     # import numpy as np
+#     # import cv2
+#     # # print(disp.shape)
+#     # disp_test = disp[0].detach().cpu().numpy()
+#     # dp2 = np.zeros_like(disp_test).astype(np.uint8)
+#     # dp2[disp_test == 0] = 255
+#     # # print(disp_test.min(), disp_test.max())
+#     # disp_show = ((disp_test)*255).astype(np.uint8)
+#     # disp_show = cv2.applyColorMap(disp_show, cv2.COLORMAP_JET)
+#     # cv2.imshow('disp', disp_show)
+#     # cv2.imshow('occ', dp2)
+#     # cv2.waitKey(0)
 
-    # return torch.mean(torch.abs(yhat-y))*190 # average disparities we are off by, most interpretable
-    return loss_fun(yhat, y)
+#     # return torch.mean(torch.abs(yhat-y))*190 # average disparities we are off by, most interpretable
+#     return loss_fun(yhat, y)
+
+def disp_loss(refined, err, labels, disp):
+    loss_fun = nn.L1Loss()
+
+    # Reshape 'refined' to [batch_size, channels, height, width]
+    refined_reshaped = refined.view(refined.size(0), refined.size(1), 384, 640)
+
+    # Create the mask with channel dimension and expand it
+    mask = (labels > 0).unsqueeze(1).expand_as(refined_reshaped)
+
+    # Apply mask and maintain dimensions
+    yhat = refined_reshaped * mask
+
+    # Sum across channel dimension and then apply the mask
+    yhat_summed = yhat.sum(dim=1)[labels > 0]
+
+    # Apply the mask to 'err' and flatten
+    y = err[labels > 0]
+
+    # Reshape yhat_summed to match the shape of y
+    yhat_summed = yhat_summed.view(-1)
+
+    return loss_fun(yhat_summed, y)
+
 
 def disp_only_loss(refined, err, disp):
     """ MSE loss after masking human """

@@ -30,7 +30,7 @@ from utils.utils import (
     init_synth_scfg,
     get_slc,
 )
-# from val import evaluate
+from val import evaluate
 from utils.metrics import Metrics, multi_class_FPr_TPr
 from utils.weight_loading import load_segmentation_pretrain_weights
 
