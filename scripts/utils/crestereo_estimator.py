@@ -5,10 +5,9 @@ import depthai as dai
 import torch
 
 import sys
-sys.path.append("utils")
-sys.path.append("utils/crestereo")
-from crestereo.test_model import inference
-from crestereo.nets import Model
+sys.path.append("/Users/rithik/Desktop/bsdr/scripts/utils/crestereo/nets/crestereo.py")
+from utils.crestereo.test_model import inference
+from utils.crestereo.nets.crestereo import CREStereo as Model
 
 class Estimator:
 

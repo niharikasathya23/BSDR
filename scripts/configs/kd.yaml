@@ -11,7 +11,7 @@ MODEL:
 DATASET:
   NAME          : HumanReal                                            # dataset name
 
-  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames'                         # dataset root path
+  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/frames_new'                         # dataset root path
   IGNORE_LABEL  : 255
   CALIB         : '/panavision/datasets/Thesis/jan_23_capture/calibration/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
