@@ -21,7 +21,7 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from scipy.signal import medfilt
 
-import open3d as o3d
+# import open3d as o3d
 import depthai as dai
 import warnings
 

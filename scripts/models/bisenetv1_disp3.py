@@ -60,7 +60,10 @@ class ContextPath(nn.Module):
         arm_down32 = self.up32(arm_down32)                  # 4x128x64x128
         arm_down32 = self.refine32(arm_down32)              # 4x128x64x128
 
-        arm_down16 = arm_down16 + arm_down32                            # 4x128x64x128
+        arm_down16 = arm_down16 + arm_down32    
+        print("arm_down16 shape:", arm_down16.shape)
+        print("arm_down32 shape:", arm_down32.shape)
+                        # 4x128x64x128
         arm_down16 = self.up16(arm_down16)                  # 4x128x128x256
         arm_down16 = self.refine16(arm_down16)              # 4x128x128x256
 

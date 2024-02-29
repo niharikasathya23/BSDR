@@ -5,7 +5,6 @@ from torch.nn import functional as F
 from models.backbones import MicroNet
 from .modules.common import ConvModule
 
-
 class SpatialPath(nn.Module):
     def __init__(self, c1, c2) -> None:
         super().__init__()

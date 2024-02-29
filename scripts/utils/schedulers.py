@@ -51,8 +51,9 @@ class WarmupPolyLR(WarmupLR):
     def get_main_ratio(self):
         real_iter = self.last_epoch - self.warmup_iter
         real_max_iter = self.max_iter - self.warmup_iter
+        if real_max_iter == 0:
+            raise ValueError("real_max_iter must be positive")
         alpha = real_iter / real_max_iter
-
         return (1 - alpha) ** self.power
 
 

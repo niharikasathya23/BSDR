@@ -17,8 +17,8 @@ pipeline = dai.Pipeline()
 # Setup mono cameras
 left = pipeline.createMonoCamera()
 right = pipeline.createMonoCamera()
-left.setBoardSocket(dai.CameraBoardSocket.LEFT)
-right.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+left.setBoardSocket(dai.CameraBoardSocket.CAM_B)
+right.setBoardSocket(dai.CameraBoardSocket.CAM_C)
 left.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
 right.setResolution(dai.MonoCameraProperties.SensorResolution.THE_400_P)
 

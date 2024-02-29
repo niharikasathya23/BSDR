@@ -11,9 +11,9 @@ MODEL:
 DATASET:
   NAME          : HumanReal                                            # dataset name
 
-  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/frames_new'                         # dataset root path
+  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames'                         # dataset root path
   IGNORE_LABEL  : 255
-  CALIB         : '/panavision/datasets/Thesis/jan_23_capture/calibration/sr_calibration.json'
+  CALIB         : '/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
   GT_RIGHT_ALIGN: true
   EXR_DISP      : false
@@ -26,7 +26,7 @@ DATASET:
   NORM_IMG      : true
 
 TRAIN:
-  IMAGE_SIZE    : [384, 640]    # training image size in (h, w)
+  IMAGE_SIZE    : [400, 640]    # training image size in (h, w)
   BATCH_SIZE    : 10              # batch size used to train
   MOSAIC        : false
   EPOCHS        : 1
@@ -54,7 +54,7 @@ SCHEDULER:
 
 EVAL:
   MODEL_PATH    : '/Users/rithik/Desktop/bsdr/scripts/save_dir/BiSeNetv1Disp3_MicroNet-M1_HumanReal.pth'  # trained model file path
-  IMAGE_SIZE    : [384, 640]                        # evaluation image size in (h, w)
+  IMAGE_SIZE    : [400, 640]                        # evaluation image size in (h, w)
   MSF:
     ENABLE      : false                               # multi-scale and flip evaluation
     FLIP        : true                                # use flip in evaluation
@@ -63,6 +63,6 @@ EVAL:
 TEST:
   # MODEL_PATH    : 'runs/coco_best/BiSeNetv1Disp2_MicroNet-M1_HumanCOCO.pth'  # trained model file path
   MODEL_PATH    : '/Users/rithik/Desktop/bsdr/scripts/save_dir/last.pth'  # trained model file path
-  FILE          : '/Users/rithik/Desktop/bsdr/scripts/test_image/april_6_1_rect_right_52.png'                                                   # filename or foldername
+  FILE          : '/Users/rithik/Desktop/bsdr/scripts/test_image/april_6_1_rect_right_5257859760.png'                                                   # filename or foldername
   IMAGE_SIZE    : [384, 640]                                                           # inference image size in (h, w)
   OVERLAY       : true

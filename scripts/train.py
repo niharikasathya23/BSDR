@@ -150,10 +150,17 @@ def main(cfg, gpu, save_dir):
 
     loss_fn = get_loss(loss_cfg["NAME"], trainset.ignore_label, None)
     optimizer = get_optimizer(model, optim_cfg["NAME"], lr, optim_cfg["WEIGHT_DECAY"])
+    max_iter = epochs * iters_per_epoch
+    warmup_iter = min(train_cfg.get('WARMUP_ITER', 500), max_iter - 1)
+    print(f"iters_per_epoch: {iters_per_epoch}, total epochs: {epochs}, max_iter: {max_iter}, warmup_iter: {warmup_iter}")
+    real_max_iter = max_iter - warmup_iter
+    if real_max_iter <= 0:
+        raise ValueError(f"real_max_iter must be positive, got {real_max_iter}. Check your epochs, batch size, and warmup_iter settings.")
+
     scheduler = get_scheduler(
         sched_cfg["NAME"],
         optimizer,
-        epochs * iters_per_epoch,
+        warmup_iter,
         sched_cfg["POWER"],
         iters_per_epoch * sched_cfg["WARMUP"],
         sched_cfg["WARMUP_RATIO"],
@@ -172,9 +179,9 @@ def main(cfg, gpu, save_dir):
             total=iters_per_epoch,
             desc=f"Epoch: [{epoch+1}/{epochs}] Iter: [{0}/{iters_per_epoch}] LR: {lr:.8f} Loss: {train_loss:.8f}",
         )
-
-        random_batch_indices = random.sample(range(0, len(trainloader)), 5)
-
+        sample_size = min(5, len(trainloader))
+        random_batch_indices = random.sample(range(0, len(trainloader)), sample_size)
+    
         batch_idx = 0
         metrics = Metrics(
             trainloader.dataset.n_classes, trainloader.dataset.ignore_label, device

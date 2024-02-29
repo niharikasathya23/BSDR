@@ -4,19 +4,18 @@ import numpy as np
 import cv2
 import imread_from_url
 
-import sys
-sys.path.append("/Users/rithik/Desktop/bsdr/scripts/utils/crestereo/nets/crestereo.py")
-from utils.crestereo.nets.crestereo import CREStereo as Model
+from nets.crestereo import CREStereo as Model
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
 #Ref: https://github.com/megvii-research/CREStereo/blob/master/test.py
 def inference(left, right, model, n_iter=20):
 
     # print("Model Forwarding...")
     # imgL = left.transpose(2, 0, 1)
     # imgR = right.transpose(2, 0, 1)
-    # # imgL = np.ascontiguousarray(imgL[None, :, :, :])
-    # # imgR = np.ascontiguousarray(imgR[None, :, :, :])
+    # imgL = np.ascontiguousarray(imgL[None, :, :, :])
+    # imgR = np.ascontiguousarray(imgR[None, :, :, :])
 
     # imgL = torch.tensor(imgL.astype("float32")).to(device)
     # imgR = torch.tensor(imgR.astype("float32")).to(device)

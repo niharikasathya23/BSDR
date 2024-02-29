@@ -71,5 +71,5 @@ else:
     splits["val"] = paths[int(len(paths) * VALIDATION_RATIO) :]
 
 # Save the resulting splits into a JSON file 
-with open(root + "/jjloader.json", "w") as f:
+with open(root + "/loader.json", "w") as f:
     json.dump(splits, f)
