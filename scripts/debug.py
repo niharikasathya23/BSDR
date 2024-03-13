@@ -78,7 +78,7 @@ def main(cfg, save_dir):
 
     for img, lbl, gt_disp, gt_err in testloader:
         img = img.to(device)
-        seg, ref = model(img)
+        _, (seg,ref) = model(img)
 
         # loss = loss_fn((seg.to('cpu'), ref.to('cpu')), lbl, gt_err)
         # print(loss)
