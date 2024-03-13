@@ -1,11 +1,30 @@
 opencv-python>=4.5.5.64
 depthai_sdk==1.9.4.1
 depthai>=2.23.0.0
-# open3d>=0.13.0
+open3d>=0.13.0
 rosbags>=0.9.13
 rosbags-image>=0.9.1
 imageio>=2.33.1
 segment-anything>=1.0
+
+torch>=1.8.0
+numpy>=1.19.2
+torchvision>=0.9.0x
+Pillow>=8.1.0
+scipy>=1.6.0
+matplotlib>=3.3.4
+albumentations>=0.5.2
+cmapy>=0.6.8
+PyYAML>=5.4.1
+
+tabulate>=0.8.7
+tqdm>=4.59.0
+torch-utils>=0.1.2
+tensorboard>=2.4.1
+scikit-learn>=0.24.1
+multiprocessing-logging>=0.3.1
+
+
 
 # you may want to install a specific torch version manually for CUDA support
 torch
