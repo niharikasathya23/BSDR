@@ -167,3 +167,9 @@ scripts/april_6_capture_frames/*
 scripts/frames/*
 scripts/frames_new/*
 scripts/save_dir/*
+app/models
+app/gymnast.mp4
+app/human_pose.py
+app/pose_estimation.py
+scripts/3d_plot.html
+scripts/ref_plus_lbl.png

@@ -14,6 +14,10 @@ from scipy.signal import medfilt
 import cmapy
 from utils.losses import get_loss
 import depthai as dai
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import plotly.graph_objs as go
+import plotly.offline as py_offline
 
 def calc_fov_D_H_V(f, w, h):
     return np.degrees(2*np.arctan(np.sqrt(w*w+h*h)/(2*f))), np.degrees(2*np.arctan(w/(2*f))), np.degrees(2*np.arctan(h/(2*f)))
@@ -180,7 +184,107 @@ def main(cfg, save_dir):
         # cv2.imwrite('ref_plus_lbl.png', ref_show_2)
 
         # cv2.waitKey()
-    
+        if seg.shape[2] == 3:  
+            seg_mask = seg[:, :, 0]  
+        
+        if ref_show_2.shape[2] == 3:  
+            ref_mask = ref_show_2[:, :, 0]  
+
+        h, w = seg_mask.shape
+        x_grid, y_grid = np.meshgrid(np.arange(w), np.arange(h))
+        x_cord = x_grid.flatten()
+        y_cord = y_grid.flatten()
+        
+        z_cord = ref.flatten()
+
+        mask = seg_mask.flatten()
+
+
+        combined_data = np.stack([x_cord, y_cord, z_cord, mask], axis=1)
+
+        count_zeros = 0
+        count_ones = 0
+        for i in combined_data:
+            if i[3]==0:
+                count_zeros+=1
+            else:
+                count_ones+=1
+        print("count_zeros:", count_zeros)
+        print("count_ones", count_ones )
+
+        z_map = z_cord.reshape(h, w)
+
+        plt.figure(figsize=(10, 5))
+        plt.subplot(1, 2, 1)
+        plt.imshow(ref, cmap='jet')
+        plt.title('Original Ref Map')
+
+        plt.subplot(1, 2, 2)
+        plt.imshow(z_map, cmap='jet')
+        plt.title('Reconstructed Ref Map')
+
+
+        mask_map = mask.reshape(h, w)
+
+        plt.figure(figsize=(10, 5))
+        plt.subplot(1, 2, 1)
+        plt.imshow(seg_mask, cmap='gray')
+        plt.title('Original Segmentation Mask')
+
+        plt.subplot(1, 2, 2)
+        plt.imshow(mask_map, cmap='gray')
+        plt.title('Reconstructed Segmentation Mask')
+
+       
+
+        skip = 50
+        fig = plt.figure(figsize=(10, 7))
+        ax = fig.add_subplot(111, projection='3d')
+
+        subset = combined_data[::skip]
+
+        colors = subset[:, 3]
+
+        scatter = ax.scatter(subset[:, 0], subset[:, 1], subset[:, 2], c=colors, cmap='viridis', marker='.')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        plt.title('3D Scatter Plot of Depth/Disparity Values')
+        plt.colorbar(scatter)
+
+        plt.show()
+
+        
+        skip = 100 
+        subsampled_data = combined_data[::skip]
+
+        x, y, z, mask = subsampled_data[:, 0], subsampled_data[:, 1], subsampled_data[:, 2], subsampled_data[:, 3]
+
+        trace = go.Scatter3d(
+            x=x, y=y, z=z,
+            mode='markers',
+            marker=dict(
+                size=2,  
+                color=mask,  
+                colorscale='Viridis',  
+                opacity=0.8
+            )
+        )
+
+        layout = go.Layout(
+            margin=dict(l=0, r=0, b=0, t=0),
+            scene=dict(
+                xaxis=dict(title='X'),
+                yaxis=dict(title='Y'),
+                zaxis=dict(title='Z'),
+            )
+        )
+
+        fig = go.Figure(data=[trace], layout=layout)
+        py_offline.plot(fig, filename='/Users/rithik/Desktop/bsdr/scripts/3d_plot.html', auto_open=True)
+
+
+
         key = cv2.waitKey(0)
         if key == ord('q'):
             break
