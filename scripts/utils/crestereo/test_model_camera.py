@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import sys
 
 # Assuming crestereo.py is in the specified directory, adjust if necessary
-sys.path.append("/Users/rithik/Desktop/bsdr/scripts/utils/crestereo/nets/crestereo.py")
+sys.path.append("/home/nataliya/bsdr/scripts/utils/crestereo/nets/crestereo.py")
 from nets.crestereo import CREStereo as Model
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -88,7 +88,7 @@ def create_pipeline():
     return pipeline
 
 if __name__ == '__main__':
-    model_path = "/Users/rithik/Desktop/bsdr/scripts/utils/crestereo/models/crestereo_eth3d.pth"
+    model_path = "/home/nataliya/bsdr/scripts/utils/crestereo/models/crestereo_eth3d.pth"
     model = Model(max_disp=256, mixed_precision=False, test_mode=True)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)

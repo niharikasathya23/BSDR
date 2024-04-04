@@ -41,7 +41,7 @@ def compute_disparity_sgbm(left_image_path, right_image_path, disparity_output_p
     print(f"Disparity map saved to {disparity_output_path}")
 
 # Define the paths for left and right images
-base_dir = "/Users/rithik/Desktop/bsdr/scripts/frames_new"  # Replace with the path to your 'frames_new' directory
+base_dir = "/home/nataliya/bsdr/scripts/frames_new"  # Replace with the path to your 'frames_new' directory
 left_dir = os.path.join(base_dir, "rect_left")
 right_dir = os.path.join(base_dir, "rect_right")
 

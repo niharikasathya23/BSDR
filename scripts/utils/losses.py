@@ -4,7 +4,7 @@ from torch.nn import functional as F
 import torchvision.transforms.functional as TF
 import sys
 import os
-parent_dir = os.path.dirname(os.path.dirname(os.path.abspath('/Users/rithik/Desktop/bsdr/scripts/ndr/loss')))
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath('/home/nataliya/bsdr/scripts/ndr/loss')))
 sys.path.append(parent_dir)
 from ndr.loss import DisparityLoss
 

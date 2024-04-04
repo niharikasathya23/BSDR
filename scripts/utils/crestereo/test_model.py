@@ -101,7 +101,7 @@ if __name__ == '__main__':
     imgL = cv2.resize(left_img, (eval_w, eval_h), interpolation=cv2.INTER_LINEAR)
     imgR = cv2.resize(right_img, (eval_w, eval_h), interpolation=cv2.INTER_LINEAR)
 
-    model_path = "/Users/rithik/Desktop/bsdr/scripts/utils/crestereo/models/crestereo_eth3d.pth"
+    model_path = "/home/nataliya/bsdr/scripts/utils/crestereo/models/crestereo_eth3d.pth"
 
     model = Model(max_disp=256, mixed_precision=False, test_mode=True)
 

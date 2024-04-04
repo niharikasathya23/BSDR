@@ -296,7 +296,7 @@ if __name__ == "__main__":
         cv2.imshow("disp", disp_show)
         cv2.imshow("err", err_show)
 
-        # base_dir = "/Users/rithik/Desktop/bsdr/scripts/april_6_capture_frames/disparity/april_6_1_disparity_0.png"
+        # base_dir = "/home/nataliya/bsdr/scripts/april_6_capture_frames/disparity/april_6_1_disparity_0.png"
         # image = cv2.imread(base_dir)
         # print(image)
         # cv2.imshow("disp image", image)

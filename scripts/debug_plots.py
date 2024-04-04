@@ -281,7 +281,7 @@ def main(cfg, save_dir):
         )
 
         fig = go.Figure(data=[trace], layout=layout)
-        py_offline.plot(fig, filename='/Users/rithik/Desktop/bsdr/scripts/3d_plot.html', auto_open=True)
+        py_offline.plot(fig, filename='/home/nataliya/bsdr/scripts/3d_plot.html', auto_open=True)
 
 
 

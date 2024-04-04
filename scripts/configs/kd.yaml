@@ -1,4 +1,4 @@
-DEVICE          : cpu             # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
+DEVICE          : cuda            # device used for training and evaluation (cpu, cuda, cuda0, cuda1, ...)
 
 SAVE_DIR        : 'save_dir'         # output folder name used for saving the model, logs and inference results
 
@@ -11,9 +11,9 @@ MODEL:
 DATASET:
   NAME          : HumanReal                                            # dataset name
 
-  ROOT          : '/Users/rithik/Desktop/bsdr/scripts/frames_new'                         # dataset root path
+  ROOT          : '/home/nataliya/bsdr/scripts/frames_new'                         # dataset root path
   IGNORE_LABEL  : 255
-  CALIB         : '/Users/rithik/Desktop/bsdr/scripts/frames_new/sr_calibration.json'
+  CALIB         : '/home/nataliya/bsdr/scripts/frames_new/sr_calibration.json'
   TEST_BAG      : '/panavision/datasets/Thesis/jan_23_capture/bags/jan_23_15.bag'
   GT_RIGHT_ALIGN: true
   EXR_DISP      : false
@@ -53,7 +53,7 @@ SCHEDULER:
   WARMUP_RATIO  : 0.1             # warmup ratio
 
 EVAL:
-  MODEL_PATH    : '/Users/rithik/Desktop/bsdr/scripts/save_dir/BiSeNetv1Disp3_MicroNet-M1_HumanReal.pth'  # trained model file path
+  MODEL_PATH    : '/home/nataliya/bsdr/scripts/save_dir/BiSeNetv1Disp3_MicroNet-M1_HumanReal.pth'  # trained model file path
   IMAGE_SIZE    : [400, 640]                        # evaluation image size in (h, w)
   MSF:
     ENABLE      : false                               # multi-scale and flip evaluation
@@ -62,7 +62,7 @@ EVAL:
 
 TEST:
   # MODEL_PATH    : 'runs/coco_best/BiSeNetv1Disp2_MicroNet-M1_HumanCOCO.pth'  # trained model file path
-  MODEL_PATH    : '/Users/rithik/Desktop/bsdr/scripts/save_dir/last.pth'  # trained model file path
-  FILE          : '/Users/rithik/Desktop/bsdr/scripts/test_image/april_6_1_rect_right_5257859760.png'                                                   # filename or foldername
+  MODEL_PATH    : '/home/nataliya/bsdr/scripts/save_dir/last.pth'  # trained model file path
+  FILE          : '/home/nataliya/bsdr/scripts/test_image/april_6_1_rect_right_5257859760.png'                                                   # filename or foldername
   IMAGE_SIZE    : [384, 640]                                                           # inference image size in (h, w)
   OVERLAY       : true
