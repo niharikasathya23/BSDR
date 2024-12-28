@@ -22,16 +22,19 @@ This project builds upon research in efficient stereo depth estimation and 3D pe
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/HIRO-group/bsdr.git
-cd bsdr
+git clone https://github.com/niharikasathya23/BSDR.git
+cd BSDR
 ```
 
 2. Create and activate virtual environment:
 ```bash
 python3 -m venv env
-source env/bin/activate  # On macOS/Linux
-# or
-env\Scripts\activate  # On Windows
+# macOS/Linux (bash or zsh)
+source env/bin/activate
+# Windows (PowerShell)
+./env/Scripts/Activate.ps1
+# Windows (cmd)
+env\Scripts\activate.bat
 ```
 
 3. Install dependencies:
@@ -41,7 +44,10 @@ pip install -r requirements.txt
 
 4. (Optional) Activate ROS2:
 ```bash
+# Linux bash
 source /opt/ros/foxy/setup.bash
+# Linux zsh
+source /opt/ros/foxy/setup.zsh
 ```
 
 ## Key Dependencies
@@ -146,13 +152,11 @@ python scripts/test.py --model <model_path> --input <image_dir>
 
 ## Model Architecture
 
-### Network Design Philosophy
-This project implements lightweight neural networks specifically designed for low-power, weight, and precision (SWaP) platforms:
+### Architecture Diagram
+<p align="center">
+	<img src="assets/bsdr_architecture.png" alt="BSDR Architecture Diagram" />
+</p>
 
-- **Efficient Encoder-Decoder**: Leverages depthwise separable convolutions and bottleneck layers
-- **Stereo Matching Module**: Implements fast matching algorithms for dense correspondence
-- **Lightweight Backbones**: MobileNet-inspired architectures with minimal parameters (~2-5M)
-- **Adaptive Resolution**: Handles multiple input resolutions while maintaining real-time performance
 
 ### Key Optimizations
 - Knowledge Distillation: Transfer learning from large teachers to compact student models
@@ -266,33 +270,11 @@ Utility scripts for development:
 - Edge: Qualcomm, MediaTek, Google Coral TPU
 - Cloud: AWS, Azure, GCP GPU instances
 
-## Applications
-
-### Robotics
-- Mobile Robots: Obstacle avoidance and navigation
-- Manipulation: Bin picking and object grasping  
-- Autonomous Vehicles: Real-time depth sensing for path planning
-
-### Industrial Applications
-- Quality Inspection: Precise measurements from depth maps
-- Defect Detection: Surface anomaly identification
-- Assembly Verification: Part alignment and positioning
-
-## Contributing
-
-This project is maintained by HIRO-group. To contribute:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
 ## License
 
 Apache License 2.0 - See LICENSE file for details
 
-## Contact
 
-For issues, questions, or contributions, please open an issue on GitHub or contact the HIRO-group team.
 
 
 
