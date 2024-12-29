@@ -10,8 +10,6 @@ This project builds upon research in efficient stereo depth estimation and 3D pe
 - 3D point cloud generation from disparity maps
 - Real-time processing optimized for embedded systems
 
-## Getting Started
-
 ### Prerequisites
 - Python 3.8 or higher
 - CUDA-capable GPU (optional, for GPU acceleration)
@@ -65,22 +63,22 @@ See `requirements.txt` for the complete dependency list.
 
 ## Core Features
 
-### 1. Stereo Image Capture (`app/capture_stereo_images.py`)
+ 1. Stereo Image Capture (`app/capture_stereo_images.py`)
 - Acquires synchronized stereo image pairs
 - Handles camera calibration and rectification
 - Supports various camera formats and interfaces
 
-### 2. Disparity Estimation (`scripts/generate_disparity.py`)
+ 2. Disparity Estimation (`scripts/generate_disparity.py`)
 - Lightweight neural network-based depth estimation
 - Efficient inference on edge devices
 - Real-time processing capabilities
 
-### 3. Point Cloud Processing (`app/utils/point_cloud2.py`)
+ 3. Point Cloud Processing (`app/utils/point_cloud2.py`)
 - Converts disparity maps to 3D point clouds
 - Handles coordinate transformations
 - Supports point cloud visualization and export
 
-### 4. 3D Projection (`app/utils/projector_3d.py`)
+ 4. 3D Projection (`app/utils/projector_3d.py`)
 - Projects 2D image features to 3D space
 - Handles camera intrinsics/extrinsics
 - Supports various projection models
@@ -154,7 +152,9 @@ python scripts/test.py --model <model_path> --input <image_dir>
 
 ### Architecture Diagram
 <p align="center">
-	<img src="assets/bsdr_architecture.png" alt="BSDR Architecture Diagram" />
+	<img src="assets/bsdr_architecture_v2.png" alt="BSDR Architecture Diagram" title="BSDR: Context/Spatial paths, Fusion, Segmentation and Disparity Heads" />
+  <br/>
+  <em>High-level BSDR pipeline: context/spatial paths fused for segmentation and disparity refinement.</em>
 </p>
 
 
