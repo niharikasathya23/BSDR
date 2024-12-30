@@ -1,4 +1,5 @@
-# BSDR: Lightweight Dense and Precise Spatial Perception for Low SWaP
+# Lightweight Dense Spatial Perception for Low SWaP Robots
+## BSDR: Bidirectional Segmentation and Disparity Refinement Model
 
 A stereo-based dense reconstruction system designed for real-time, lightweight spatial perception on resource-constrained platforms. This project implements efficient depth estimation and 3D point cloud generation for low-power, weight, and precision (SWaP) applications.
 
@@ -152,9 +153,7 @@ python scripts/test.py --model <model_path> --input <image_dir>
 
 ### Architecture Diagram
 <p align="center">
-	<img src="assets/bsdr_architecture_v2.png" alt="BSDR Architecture Diagram" title="BSDR: Context/Spatial paths, Fusion, Segmentation and Disparity Heads" />
-  <br/>
-  <em>High-level BSDR pipeline: context/spatial paths fused for segmentation and disparity refinement.</em>
+	<img src="assets/bsdr_architecture_v2.png" alt="BSDR Architecture Diagram" />
 </p>
 
 
